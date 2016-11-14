@@ -1,0 +1,2 @@
+SET DEBUG=parkingapplication:* & npm start
+node ./bin/www
