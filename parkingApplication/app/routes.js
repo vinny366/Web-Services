@@ -1,11 +1,45 @@
 // app/routes.js
+var mongoose = require("mongoose");
+var TimeSlot = require('./models/spot.js');
+var ParkingLot = require('./models/parkings.js');
+var db = mongoose.connection;
 module.exports = function(app, passport) {
 
     // =====================================
     // HOME PAGE (with login links) ========
     // =====================================
     app.get('/', function(req, res) {
+        var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013-12-31')}, status: 'free'})
+        newSpot.save(function(err){
+            if (err)
+                {
+                    console.log(err);
+                    throw err;
+                }
+        })
+        var newParkingLot = new ParkingLot({
+            Name : 'Tempe Transit Centre',
+            GeoX         : 'String',
+            GeoY         : 'String',
+            capacity     : 5,
+            spots        : {
+                "Spot1"      : [newSpot, newSpot],
+                "Spot2"      : [newSpot, newSpot],
+                "Spot3"      : [newSpot, newSpot],
+                "Spot4"      : [newSpot, newSpot],
+                "Spot5"      : [newSpot, newSpot]
+            }
+        });
+        newParkingLot.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log('Saved the Parking lot');
+            }
+        })
         res.render('index.ejs'); // load the index.ejs file
+
     });
 
     // =====================================
@@ -13,18 +47,19 @@ module.exports = function(app, passport) {
     // =====================================
     // show the login form
     app.get('/login', function(req, res) {
-
-        // render the page and pass in any flash data if it exists
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
     });
 
-    // process the login form
-    // app.post('/login', do all our passport stuff here);
-        
-    // =====================================
-    // SIGNUP ==============================
-    // =====================================
-    // show the signup form
+    app.post('/login', passport.authenticate('local-login', {
+        successRedirect : '/profile', 
+        failureRedirect : '/login', 
+        failureFlash : true 
+    }));
+
+    // ===================================================
+    // ==============SIGNUP ==============================
+    // ===================================================
+
     app.get('/signup', function(req, res) {
 
         // render the page and pass in any flash data if it exists
@@ -65,7 +100,29 @@ module.exports = function(app, passport) {
         req.logout();
         res.redirect('/');
     });
-};
+////////////////////////////FACEBOOK-------------------------
+
+app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' }));
+
+    // handle the callback after facebook has authenticated the user
+    app.get('/auth/facebook/callback',
+        passport.authenticate('facebook', {
+            successRedirect : '/profile',
+            failureRedirect : '/'
+        }));
+////////////////////////////FACEBOOK ENDS-------------------------
+
+////////////////////////////GOOGLE STARTS-------------------------
+ app.get('/auth/google', passport.authenticate('google', { scope : ['profile', 'email'] }));
+
+    app.get('/auth/google/callback',
+            passport.authenticate('google', {
+                    successRedirect : '/profile',
+                    failureRedirect : '/'
+            }));
+////////////////////////////GOOGLE ENDS-------------------------
+
+};// exports end
 
 // route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
