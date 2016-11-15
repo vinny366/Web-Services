@@ -1,7 +1,12 @@
 
 
 var LocalStrategy   = require('passport-local').Strategy;
+var FacebookStrategy = require('passport-facebook').Strategy;
+var googleStrategy  = require('passport-google-oauth').OAuth2Strategy; 
 var User            = require('../app/models/user');
+
+
+var configAuth = require('./auth');
 
 module.exports = function(passport) {
 
@@ -23,14 +28,17 @@ module.exports = function(passport) {
         passReqToCallback : true // allows us to pass back the entire request to the callback
     },
     function(req, email, password, done) {
-
-        // asynchronous
-        // User.findOne wont fire unless data is sent back
+        // console.log("req " + req)
+        // console.log("email is" +req.body.email);
+        // console.log("phone is" + req.body.phone);
+        var ph = req.body.phone;
         process.nextTick(function() {
+            console.log(typeof(req.body.phone));
+            if(ph.length < 10){
+                return done(null, false, req.flash('signupMessage', 'Enter Correct Phone Number'));
+            }
 
-        // find a user whose email is the same as the forms email
-        // we are checking to see if the user trying to login already exists
-        User.findOne({ 'local.email' :  email }, function(err, user) {
+         User.findOne({ 'local.email' :  email }, function(err, user) {
             // if there are any errors, return the error
             if (err)
                 return done(err);
@@ -39,17 +47,10 @@ module.exports = function(passport) {
             if (user) {
                 return done(null, false, req.flash('signupMessage', 'That email is already taken.'));
             } else {
-
-                // if there is no user with that email
-                // create the user
-                var newUser            = new User();
-
-                // set the user's local credentials
+                var newUser = new User();
                 newUser.local.email    = email;
                 newUser.local.password = newUser.generateHash(password);
-
-                // save the user
-                console.log("email is");
+                newUser.local.phone = req.body.phone;
                 console.log("saving--------")
                 newUser.save(function(err) {
                     if (err)
