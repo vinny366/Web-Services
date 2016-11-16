@@ -1,0 +1,100 @@
+var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013-12-31')}, status: 'free'})
+        newSpot.save(function(err){
+            if (err)
+                {
+                    console.log(err);
+                    throw err;
+                }
+        })
+        var TempeParkingLot = new ParkingLot({
+            Name : 'Tempe Transit Centre',
+            GeoX         : 'String',
+            GeoY         : 'String',
+            capacity     : 5,
+            spots        : {
+                "Spot1"      : [],
+                "Spot2"      : [],
+                "Spot3"      : [],
+                "Spot4"      : [],
+                "Spot5"      : []
+            }
+        });
+        TempeParkingLot.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log('Saved the Parking lot');
+            }
+        })
+
+
+        var SeattleParkingLot = new ParkingLot({
+            Name : 'Seattle Transit Centre',
+            GeoX         : 'String',
+            GeoY         : 'String',
+            capacity     : 5,
+            spots        : {
+                "Spot1"      : [],
+                "Spot2"      : [],
+                "Spot3"      : [],
+                "Spot4"      : [],
+                "Spot5"      : [newSpot, newSpot]
+            }
+        });
+        SeattleParkingLot.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log('Saved the Parking lot');
+            }
+        })
+
+
+        var BostonParkingLot = new ParkingLot({
+            Name : 'Boston Transit Centre',
+            GeoX         : 'String',
+            GeoY         : 'String',
+            capacity     : 5,
+            spots        : {
+                "Spot1"      : [],
+                "Spot2"      : [],
+                "Spot3"      : [],
+                "Spot4"      : [],
+                "Spot5"      : [newSpot, newSpot]
+            }
+        });
+        BostonParkingLot.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log('Saved the Parking lot');
+            }
+        })
+
+         var TexasParkingLot = new ParkingLot({
+            Name : 'Texas Transit Centre',
+            GeoX         : 'String',
+            GeoY         : 'String',
+            capacity     : 5,
+            spots        : {
+                "Spot1"      : [],
+                "Spot2"      : [],
+                "Spot3"      : [],
+                "Spot4"      : [],
+                "Spot5"      : [newSpot, newSpot]
+            }
+        });
+        TexasParkingLot.save(function(err){
+            if (err) {
+                console.log(err);
+            }
+            else{
+                console.log('Saved the Parking lot');
+            }
+        })
+
+
+in / initial

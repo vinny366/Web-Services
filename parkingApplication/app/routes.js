@@ -5,46 +5,15 @@ var ParkingLot = require('./models/parkings.js');
 var db = mongoose.connection;
 module.exports = function(app, passport) {
 
-    // =====================================
-    // HOME PAGE (with login links) ========
-    // =====================================
     app.get('/', function(req, res) {
-        var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013-12-31')}, status: 'free'})
-        newSpot.save(function(err){
-            if (err)
-                {
-                    console.log(err);
-                    throw err;
-                }
-        })
-        var newParkingLot = new ParkingLot({
-            Name : 'Tempe Transit Centre',
-            GeoX         : 'String',
-            GeoY         : 'String',
-            capacity     : 5,
-            spots        : {
-                "Spot1"      : [newSpot, newSpot],
-                "Spot2"      : [newSpot, newSpot],
-                "Spot3"      : [newSpot, newSpot],
-                "Spot4"      : [newSpot, newSpot],
-                "Spot5"      : [newSpot, newSpot]
-            }
-        });
-        newParkingLot.save(function(err){
-            if (err) {
-                console.log(err);
-            }
-            else{
-                console.log('Saved the Parking lot');
-            }
-        })
+        // lod the db in test,txt initially
         res.render('index.ejs'); // load the index.ejs file
 
     });
 
-    // =====================================
-    // LOGIN ===============================
-    // =====================================
+
+//============= ==============LOGIN ===============================
+
     // show the login form
     app.get('/login', function(req, res) {
         res.render('login.ejs', { message: req.flash('loginMessage') }); 
@@ -56,10 +25,8 @@ module.exports = function(app, passport) {
         failureFlash : true 
     }));
 
-    // ===================================================
-    // ==============SIGNUP ==============================
-    // ===================================================
-
+    // =========== ==============SIGNUP ==============================
+ 
     app.get('/signup', function(req, res) {
 
         // render the page and pass in any flash data if it exists
@@ -73,29 +40,21 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-    // app.post('/signup',function(req,res){
-    //     var email = req.body.email;
-    //     var password = req.body.password;
-    //     var phone = req.body.phone;
-    //     // console.log(email + "---" + password + "---" + phone)
 
 
-    // })
 
-    // =====================================
-    // PROFILE SECTION =====================
-    // =====================================
-    // we will want this protected so you have to be logged in to visit
-    // we will use route middleware to verify this (the isLoggedIn function)
+// ==============================PROFILE SECTION =====================
+   
+
     app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
     });
 
-    // =====================================
-    // LOGOUT ==============================
-    // =====================================
+
+// ============================== LOGOUT ==============================
+
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
@@ -124,13 +83,8 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' })
 
 };// exports end
 
-// route middleware to make sure a user is logged in
 function isLoggedIn(req, res, next) {
-
-    // if user is authenticated in the session, carry on 
     if (req.isAuthenticated())
         return next();
-
-    // if they aren't redirect them to the home page
     res.redirect('/');
 }
