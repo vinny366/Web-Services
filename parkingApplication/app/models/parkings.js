@@ -6,14 +6,12 @@ var parkingSchema = mongoose.Schema({
         GeoX         : String,
         GeoY         : String,
         capacity     : String,
-        spots        : {
-            "Spot1"      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
-            "Spot2"      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
-            "Spot3"      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
-            "Spot4"      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
-            "Spot5"      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}]
-    },
-    
+        Spot1      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
+        Spot2      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
+        Spot3      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
+        Spot4      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}],
+        Spot5      : [{type: mongoose.Schema.Types.ObjectId, ref: 'TimeSlot', unique: true}]
+
 
 });
  

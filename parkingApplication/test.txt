@@ -1,4 +1,4 @@
-var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013-12-31')}, status: 'free'})
+        var newSpot = new TimeSlot({from : Date('2013-12-31'), to: Date('2013-12-31'), status: 'free'})
         newSpot.save(function(err){
             if (err)
                 {
@@ -11,13 +11,12 @@ var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013
             GeoX         : 'String',
             GeoY         : 'String',
             capacity     : 5,
-            spots        : {
-                "Spot1"      : [],
-                "Spot2"      : [],
-                "Spot3"      : [],
-                "Spot4"      : [],
-                "Spot5"      : []
-            }
+            Spot1      : [],
+            Spot2      : [],
+            Spot3      : [],
+            Spot4      : [],
+            Spot5      : []
+
         });
         TempeParkingLot.save(function(err){
             if (err) {
@@ -34,13 +33,11 @@ var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013
             GeoX         : 'String',
             GeoY         : 'String',
             capacity     : 5,
-            spots        : {
-                "Spot1"      : [],
-                "Spot2"      : [],
-                "Spot3"      : [],
-                "Spot4"      : [],
-                "Spot5"      : [newSpot, newSpot]
-            }
+            Spot1      : [newSpot, newSpot],
+            Spot2      : [newSpot, newSpot],
+            Spot3      : [newSpot, newSpot],
+            Spot4      : [newSpot, newSpot],
+            Spot5      : [newSpot, newSpot]
         });
         SeattleParkingLot.save(function(err){
             if (err) {
@@ -57,13 +54,11 @@ var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013
             GeoX         : 'String',
             GeoY         : 'String',
             capacity     : 5,
-            spots        : {
-                "Spot1"      : [],
-                "Spot2"      : [],
-                "Spot3"      : [],
-                "Spot4"      : [],
-                "Spot5"      : [newSpot, newSpot]
-            }
+            Spot1      : [],
+            Spot2      : [],
+            Spot3      : [],
+            Spot4      : [],
+            Spot5      : [newSpot, newSpot]
         });
         BostonParkingLot.save(function(err){
             if (err) {
@@ -79,13 +74,11 @@ var newSpot = new TimeSlot({timeSlot: {from : Date('2013-12-31'), to: Date('2013
             GeoX         : 'String',
             GeoY         : 'String',
             capacity     : 5,
-            spots        : {
-                "Spot1"      : [],
-                "Spot2"      : [],
-                "Spot3"      : [],
-                "Spot4"      : [],
-                "Spot5"      : [newSpot, newSpot]
-            }
+            Spot1      : [],
+            Spot2      : [],
+            Spot3      : [newSpot],
+            Spot4      : [newSpot],
+            Spot5      : [newSpot, newSpot]
         });
         TexasParkingLot.save(function(err){
             if (err) {

@@ -1,9 +1,8 @@
 var mongoose = require('mongoose');
 
 var timeSlotSchema = mongoose.Schema({
-	timeSlot : {
-		from: {type: Date},
-		to:{type: Date}},
+	from: {type: Date},
+	to:{type: Date},
 	status : {type: String}
 })
 

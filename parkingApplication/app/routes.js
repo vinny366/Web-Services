@@ -40,21 +40,13 @@ module.exports = function(app, passport) {
         failureFlash : true // allow flash messages
     }));
 
-
-
-
 // ==============================PROFILE SECTION =====================
-   
-
-    app.get('/profile', isLoggedIn, function(req, res) {
+   app.get('/profile', isLoggedIn, function(req, res) {
         res.render('profile.ejs', {
             user : req.user // get the user out of session and pass to template
         });
     });
-
-
 // ============================== LOGOUT ==============================
-
     app.get('/logout', function(req, res) {
         req.logout();
         res.redirect('/');
@@ -81,6 +73,31 @@ app.get('/auth/facebook', passport.authenticate('facebook', { scope : 'email' })
             }));
 ////////////////////////////GOOGLE ENDS-------------------------
 
+
+//--------------------------- Populating Parking Lot--------------
+
+app.post('/parkings/:lotName' ,function(req,res){
+    var fromTime = req.body.from;
+    var toTime = req.body.to;
+    var date = req.body.date;
+    console.log(req.body)
+    ParkingLot.find({"Name" : req.params.lotName})
+    .populate('Spot1 Spot2 Spot3 Spot4 Spot5')
+    .exec(function(err, result) {
+        console.log(result);
+        console.log(err);
+        res.send(result);
+    });
+    // console.log(allParkings)
+    // console.log(allParkings.length)
+})
+app.get('/parkings', isLoggedIn , function(req, res) {
+    ParkingLot.find({}, function(err, result){
+        console.log(result)
+        console.log(err)
+        res.send(result)
+    })
+})
 };// exports end
 
 function isLoggedIn(req, res, next) {
