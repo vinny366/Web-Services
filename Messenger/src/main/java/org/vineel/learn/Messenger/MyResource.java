@@ -1,4 +1,4 @@
-package org.vineel.Messenger;
+package org.vineel.learn.Messenger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
